@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p> This is the cadets body </p>
+
+<p> This is the cadets body </p>
+
+<div class="container">
+    <h1> Cadets </h1>
+    
+    {% for cadet in cadets %}
+        <h1> {{ cadet.name }} </h1>
+    {% endfor %}
+</div>
 
 {% endblock content %}
