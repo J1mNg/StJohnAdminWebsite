@@ -2,14 +2,64 @@
 
 {% block content %}
 
-<p> This is the cadets body </p>
-
 <div class="container">
-    <h1> Cadets </h1>
-    
-    {% for cadet in cadets %}
-        <h1> {{ cadet.name }} </h1>
-    {% endfor %}
+    <h1> List of Cadet Information </h1>
+
+    <div style="overflow-x:auto;">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th> Edit User </th>
+                <th> User Id </th>
+                <th> First Name </th>
+                <th> Last Name </th>
+                <th> Birthday </th>
+                <th> Age </th>
+                <th> Mobile Number </th>
+                <th> Email </th>
+                <th> Date Joined </th>
+                <th> Years Since Joining </th>
+                <th> Bond Payment Date </th>
+                <th> Joining Fee Payment Date </th>
+                <th> Rank </th>
+                <th> Qualifications </th>
+                <th> Total Duty Hours </th>
+                <th> Number of Events Attended </th>
+                <th> Total Traning Hours </th>
+                <th> Total Other Hours </th>
+                <th> Total Meeting Hours </th>
+                <th> Is Active </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for cadet in cadets %}
+                <tr>
+                    <th style="border-color:black;" scope="row"> <a class="btn btn-primary" href='/edit_cadet/{{ cadet.user_id }}'>EDIT</a> </th>
+                    <th style="border-color:black;"> {{ cadet.user_id }} </th>
+                    <td style="border-color:black;"> {{ cadet.firstname }} </td>
+                    <td style="border-color:black;"> {{ cadet.lastname }} </td>
+                    <td style="border-color:black;"> {{ cadet.birthday }} </td>
+                    <td style="border-color:black;"> {{ cadet.age }}  </td>
+                    <td style="border-color:black;"> {{ cadet.mobile }} </td>
+                    <td style="border-color:black;"> {{ cadet.email }} </td>
+                    <td style="border-color:black;"> {{ cadet.date_joined }} </td>
+                    <td style="border-color:black;"> {{ cadet.years_since_joined }} </td>
+                    <td style="border-color:black;"> {{ cadet.bond_paid }} </td>
+                    <td style="border-color:black;"> {{ cadet.joining_fee_paid }} </td>
+                    <td style="border-color:black;"> {{ cadet.rank }} </td>
+                    <td style="border-color:black;"> {{ cadet.qualification }} </td>
+                    <td style="border-color:black;"> {{ cadet.total_duty_hours }} </td>
+                    <td style="border-color:black;"> {{ cadet.num_of_events }} </td>
+                    <td style="border-color:black;"> {{ cadet.training_hours }} </td>
+                    <td style="border-color:black;"> {{ cadet.other_hours }} </td>
+                    <td style="border-color:black;"> {{ cadet.meeting_hours }} </td>
+                    <td style="border-color:black;"> {{ cadet.is_active }} </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {% endblock content %}

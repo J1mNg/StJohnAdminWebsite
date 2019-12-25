@@ -23,4 +23,4 @@ class Cadet(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.user_id + ": " + self.firstname + " " + self.lastname
+        return self.firstname + " " + self.lastname

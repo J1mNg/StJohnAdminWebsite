@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p> editing cadet page </p>
+
+    {% if cadet_id %}
+        <p> Cadet ID is: {{ cadet_id }} </p>
+    {% else %}
+        <p> Cadet ID is not passed </p>
+    {% endif %}
+
+{% endblock content %}

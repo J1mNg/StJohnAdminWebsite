@@ -41,7 +41,7 @@
                 <li><a href="{% url 'cash_box' %}">Cash Box</a></li>
             </ul>
         </nav>
-        <!-- /#sidebar-wrapper -->
+        <!-- end sidebar -->
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
@@ -51,15 +51,14 @@
 				<span class="hamb-bottom"></span>
             </button>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                            {% block content %}{% endblock %}
-                    </div>
+            <div class="container" style="width: 1500px">
+                <div class="row" style="height: 80%; width: 100%;">
+                    {% block content %}{% endblock %}
                 </div>
             </div>
         </div>
-        <!-- /#page-content-wrapper -->
+        <br>
+        <!-- end content-wrapper -->
     </div>
 
 </body>

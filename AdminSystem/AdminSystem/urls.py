@@ -23,4 +23,5 @@ urlpatterns = [
     path('cadets/', views.cadets, name='cadets'),
     path('role_marking/', views.role_marking, name='role_marking'),
     path('cash_box/', views.cash_box, name='cash_box'),
+    path('edit_cadet/<int:cadet_id>/', views.edit_cadet)
 ]

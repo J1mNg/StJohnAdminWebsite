@@ -1,7 +1,7 @@
 body {
     position: relative;
     overflow-x: hidden;
-    background-color: #CFD8DC;
+    background-color: #DCDCDC;
 }
 body,
 html { height: 100%;}
@@ -288,4 +288,12 @@ html { height: 100%;}
 /*-------------------------------*/
 /*            Overlay            */
 /*-------------------------------*/
+
+.table td{
+  border: black solid 1px !important;
+}
+
+.table th{
+  border: black solid 1px !important;
+}
 

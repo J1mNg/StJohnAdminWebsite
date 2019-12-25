@@ -11,10 +11,14 @@ def home(request):
 
 def cadets(request):
     cadets = Cadet.objects.all()
-
-    args = { 'name': name }
+    
+    args = {'cadets': cadets}
     return render(request, "cadets.html", args)
 
+def edit_cadet(request, cadet_id='0'):
+    args = {'cadet_id': cadet_id}
+
+    return render(request, "editCadet.html", args)
 
 def role_marking(request):
     return render(request, "role_marking.html")
