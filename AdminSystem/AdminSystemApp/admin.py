@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CadetsList
+from .models import Cadet
 
 # Register your models here.
-admin.site.register(CadetsList)
+admin.site.register(Cadet)
