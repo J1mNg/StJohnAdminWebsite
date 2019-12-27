@@ -3,8 +3,45 @@
 {% block content %}
 
 <div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                    {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <h1> List of Cadet Information </h1>
 
+    <form method='GET' action=''>
+        <div class="form-group">
+            <label for="searchKeywords">Search Keywords</label>
+            <input type="text" class="form-control" id="search_query" aria-describedby="search_help" placeholder="Enter Search Terms" name='q'>
+            <small id="search_help_text" class="form-text text-muted">Enter keywords for search. (name, email, rank, and qualifications)</small>
+            <br>
+            <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group" role="group" aria-label="First group">
+                    <button type="submit" class="btn btn-primary mr-1" value='Search'>Submit</button>
+                    <form action="/cadets/">
+                        <button type="submit" class="btn btn-danger mr-1 ml-1">Reset</button>
+                    </form>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <form action="/cadets/add_cadet/">
+                            <button type="submit" class="btn btn-success ml-1">Add New Cadet</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <br>
+    <h1 style=' text-align: center;'> Cadets List </h1>
     <div style="overflow-x:auto;">
         <table class="table">
             <thead class="thead-dark">

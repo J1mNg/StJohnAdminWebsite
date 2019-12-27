@@ -4,12 +4,12 @@
     <div class="container">
         <h1> Edit Cadet Information </h1>
         <br>
-        <form action="" method="POST">
+        <form action="/cadets/" method="POST">
             {% csrf_token %}
-            <table>
+            <table class="table table-striped">
             {{ form.as_table }}
             </table>
-            <input type='submit' value ='Submit'>
+            <input type='submit' value ='Submit' class="btn btn-primary">
         </form>
     </div>
 
