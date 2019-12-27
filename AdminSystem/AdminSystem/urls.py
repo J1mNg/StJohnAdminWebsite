@@ -21,7 +21,7 @@ urlpatterns = [
     path('', views.homepage, name='home'),
     path('cadets/', include("CadetApp.urls")),
     path('rollMarking/', include("RollMarkingApp.urls")),
+    path('finances/', include("FinancesApp.urls")),
 
     path('admin/', admin.site.urls),
-    # path('cash_box/', views.cash_box, name='cash_box'),
 ]

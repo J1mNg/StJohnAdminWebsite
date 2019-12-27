@@ -8,7 +8,7 @@ from CadetApp.models import Cadet
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html", args)
+    return render(request, "cadets_index.html")
 
 def cadets(request):
     cadets = Cadet.objects.all()

@@ -15,12 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from CadetApp import views
+from FinancesApp import views
 
-app_name='cadets'
+app_name='finances'
 
 urlpatterns = [
-    path('', views.cadets, name='cadets'),
-    path('cadets_index', views.index, name='cadets_index'),
-    path('edit_cadet/<int:cadet_id>/', views.edit_cadet)
+    path('', views.index, name='finances_index'),
 ]

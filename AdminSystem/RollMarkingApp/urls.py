@@ -21,5 +21,5 @@ from RollMarkingApp import views
 app_name='rollMarking'
 
 urlpatterns = [
-    path('', views.index, name='rollMarking'),
+    path('', views.index, name='rollMarkingIndex'),
 ]
