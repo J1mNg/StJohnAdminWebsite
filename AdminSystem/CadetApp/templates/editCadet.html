@@ -1,16 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <h1> Edit Cadet Information </h1>
-        <br>
-        <form action="/cadets/" method="POST">
-            {% csrf_token %}
-            <table class="table table-striped">
-            {{ form.as_table }}
-            </table>
-            <input type='submit' value ='Submit' class="btn btn-primary">
-        </form>
-    </div>
+<div class="container">
+    <form action="/cadets/">
+        <button class="btn btn-danger" type="submit"><i class="fa fa-home"></i> Back to Cadets List</button>
+    </form>
+    <br>
+
+    <h1> Edit Cadet Information </h1>
+    <br>
+    <form action="/cadets/" method="POST">
+        {% csrf_token %}
+        <table class="table table-striped">
+        {{ form.as_table }}
+        </table>
+        <input type='submit' value ='Submit' class="btn btn-primary">
+    </form>
+</div>
 
 {% endblock content %}

@@ -33,7 +33,7 @@ class EditCadetInformationForm(ModelForm):
             'firstname': TextInput(
                 attrs={
                     'class': 'form_input',
-                    'placeholder': 'firstname'
+                    'placeholder': 'firstname',
                 }
             ),
             'lastname': TextInput(attrs={
@@ -42,20 +42,20 @@ class EditCadetInformationForm(ModelForm):
             }),
             'birthday': DateInput(attrs={
                 'class': 'form_input',
-                'placeholder': 'birthday',
+                'placeholder': 'dd/mm/yyyy',
                 'type': 'date',
             }),
             'age': NumberInput(attrs={
                 'class': 'form_input',
-                'placeholder': 'age'
+                'placeholder': 'e.g 19'
             }),
             'mobile': NumberInput(attrs={
                 'class': 'form_input',
-                'placeholder': 'mobile number'
+                'placeholder': 'e.g 0452 891 231'
             }),
             'email': EmailInput(attrs={
                 'class': 'form_input',
-                'placeholder': 'email address'
+                'placeholder': 'example@example.com'
             }),
             'date_joined': DateInput(attrs={
                 'class': 'form_input',
@@ -64,7 +64,7 @@ class EditCadetInformationForm(ModelForm):
             }),
             'years_since_joined':NumberInput(attrs={
                 'class': 'form_input',
-                'placeholder': 'age'
+                'placeholder': 'e.g 3'
             }),
             'bond_paid': DateInput(attrs={
                 'class': 'form_input',
@@ -78,11 +78,11 @@ class EditCadetInformationForm(ModelForm):
             }),
             'rank': TextInput(attrs={
                 'class': 'form_input',
-                'placeholder': 'rank'
+                'placeholder': 'e.g Cadet',
             }),
             'qualification': TextInput(attrs={
                 'class': 'form_input',
-                'placeholder': 'qualifications'
+                'placeholder': 'e.g First Aid'
             }),
             'total_duty_hours':NumberInput(attrs={
                 'class': 'form_input',
