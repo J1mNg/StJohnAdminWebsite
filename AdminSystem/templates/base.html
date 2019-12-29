@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     
     <link rel="stylesheet" href="{% static '/css/navbar.css' %}">
 
@@ -36,8 +37,16 @@
                 <div class="sidebar-header">
                 <div class="sidebar-brand">
                 
-                <!-- Homepage -->
+                <!-- Side bar title -->
                 <a href="{% url 'home' %}">St John Ambulance</a></div></div>
+
+                <div class="sidebar text-center" style="padding-top:10px; padding-bottom:10px; text-align:center; width:100%; background:#222222">
+                    <h5 class="text-white">Welcome, {% if user.is_authenticated %} Cadet {% else %} Guest {% endif %}</h5>
+                    {% if not user.is_authenticated %} <small id="login_help" class="form-text text-muted"> Please Login to enable full functionality of the site </small> {% endif %}
+                    {% if not user.is_authenticated %} <a class="button" href="/authentication/login/">Log In</a> {% else %} <a class="button" href="/authentication/logout/">Log Out</a> {% endif %}
+                </div>
+
+                <!-- Homepage -->
                 <li><a href="{% url 'home' %}">Home</a></li>
                 
                 <!-- Cadets -->

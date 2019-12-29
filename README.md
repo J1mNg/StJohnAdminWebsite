@@ -1,11 +1,17 @@
-# BasicDjangoAwsDeploymentExample
+St John Ambulance Admin System:
+Link: http://ec2-52-207-243-125.compute-1.amazonaws.com/
 
-#Setup
-1. Install virtual Environment
-2. Start Virtual Env
-3. Install Django (Pip3 or Apt-Get)
+Developed By:
+    Jim Ng: https://github.com/J1mNg
+    Peter Kim: https://github.com/PeterKim321
 
-1. Clone the Repo
-2. Go to your linux console
-3. Navigate to /AdminSystem
-3. Type: python manage.py runserver [can also specify IP:port]
+App:
+    - Django
+    - Bootstrap4
+
+Deployment:
+    - EC2
+    - Gunicorn
+    - Nginx
+
+The project is open for modification, just clone the repo :).

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .forms import EditCadetInformationForm
 
@@ -12,6 +13,7 @@ from CadetApp.models import Cadet
 def index(request):
     return render(request, "cadets_index.html")
 
+@login_required
 def cadets(request):
     cadets = Cadet.objects.all()
     query = request.GET.get('q')
@@ -35,6 +37,7 @@ def cadets(request):
     args = {'cadets': cadets}
     return render(request, "cadets.html", args)
 
+@login_required
 def edit_cadet(request, cadet_id='0'):
     cadet = Cadet.objects.get(user_id=cadet_id)
     
@@ -57,6 +60,7 @@ def edit_cadet(request, cadet_id='0'):
 
         return render(request, "editCadet.html", args)
 
+@login_required
 def add_cadet(request):
     form = EditCadetInformationForm(request.POST or None)
     if form.is_valid():

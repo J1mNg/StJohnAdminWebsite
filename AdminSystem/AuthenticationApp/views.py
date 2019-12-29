@@ -7,6 +7,3 @@ from django.contrib.auth import logout
 from django.conf import settings
 
 # Create your views here.
-def logout_view(request):
-    logout(request)
-    return redirect('%s?next=%s' % (settings.LOGOUT_URL, request.path))
