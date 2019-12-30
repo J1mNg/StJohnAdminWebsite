@@ -23,7 +23,7 @@ urlpatterns = [
     path('rollMarking/', include("RollMarkingApp.urls")),
     path('finances/', include("FinancesApp.urls")),
     path('authentication/', include("AuthenticationApp.urls")),
-    path('reward/', include("RewardApp.urls")),
+    path('rewards/', include("RewardApp.urls")),
 
     path('admin/', admin.site.urls),
 ]

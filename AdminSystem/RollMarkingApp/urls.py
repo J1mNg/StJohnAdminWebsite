@@ -1,5 +1,4 @@
 """AdminSystem URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
 Examples:
@@ -18,8 +17,11 @@ from django.urls import path
 
 from RollMarkingApp import views
 
-app_name='rollMarking'
+app_name='rollmarking'
 
 urlpatterns = [
     path('', views.index, name='rollMarkingIndex'),
+    path('addmeetings/', views.form_addmeetings, name="form_addmeetings"),
+    path('view_attendance/<int:year>/term_<int:term>/', views.view_attendance, name="view_attendance"),
+    path('mark_attendance/<int:year>/<int:month>/<int:day>', views.mark_attendance, name="mark_attendance"),
 ]

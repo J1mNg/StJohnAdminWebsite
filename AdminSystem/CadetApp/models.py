@@ -7,7 +7,7 @@ class Cadet(models.Model):
     user_id = models.AutoField(primary_key=True)
     firstname = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
-    birthday = models.DateField(blank=True)
+    birthday = models.DateField(blank=True, null=True)
     age = models.IntegerField(null=True, blank=True)
     mobile = models.IntegerField(null=True, blank=True)
     email = models.EmailField(max_length=254, null=True, blank=True)

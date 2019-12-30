@@ -23,7 +23,7 @@
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 
-    {% comment %} <script src="{% static '/js/datepicker.js' %}"></script> {% endcomment %}
+    <script src="{% static '/js/datepicker.js' %}"></script>
     <script src="{% static '/js/navbar.js' %}"></script>
 
     <title> Admin System </title>
@@ -68,8 +68,8 @@
                     <a href="" class="dropdown-toggle"  data-toggle="dropdown">Roll Marking <span class="caret"></span></a>
                     <ul class="dropdown-menu animated fadeInLeft" role="menu">
                         <div class="dropdown-header">Roll Marking Menu</div>
-                        <li><a href="{% url 'rollMarking:rollMarkingIndex' %}">Roll Marking Home</a></li>
-                        {% comment %} <li><a href="{% url 'cadets:cadets' %}">Roll Marking</a></li> {% endcomment %}
+                        <li><a href="{% url 'rollmarking:rollMarkingIndex' %}">Roll Marking Home</a></li>
+
                     </ul>
                 </li>
                 
