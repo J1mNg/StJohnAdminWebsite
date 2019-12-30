@@ -15,13 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from CadetApp import views
+from RewardApp import views
 
-app_name='cadets'
+app_name='rewards'
 
 urlpatterns = [
-    path('', views.cadets, name='cadets'),
-    path('cadets_index', views.index, name='cadets_index'),
-    path('edit_cadet/<int:cadet_id>/', views.edit_cadet),
-    path('add_cadet/', views.add_cadet, name='add_cadet.html'),
+    path('', views.reward_index, name='reward_index'),
 ]
