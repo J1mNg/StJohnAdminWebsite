@@ -41,7 +41,7 @@
                 <a href="{% url 'home' %}">St John Ambulance</a></div></div>
 
                 <div class="sidebar text-center" style="padding-top:10px; padding-bottom:10px; text-align:center; width:100%; background:#222222">
-                    <h5 class="text-white">Welcome, {% if user.is_authenticated %} Cadet {% else %} Guest {% endif %}</h5>
+                    <h5 class="text-white">Welcome, {% if user.is_authenticated %} {{ user.username }} {% else %} Guest {% endif %}</h5>
                     {% if not user.is_authenticated %} <small id="login_help" class="form-text text-muted"> Please Login to enable full functionality of the site </small> {% endif %}
                     {% if not user.is_authenticated %} <a class="button" href="/authentication/login/">Log In</a> {% else %} <a class="button" href="/authentication/logout/">Log Out</a> {% endif %}
                 </div>
@@ -77,6 +77,16 @@
                         <li><a href="{% url 'finances:finances_index' %}">Finances Home</a></li>
                     </ul>
                 </li>
+
+                <!-- Rewards -->
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle"  data-toggle="dropdown">Rewards<span class="caret"></span></a>
+                    <ul class="dropdown-menu animated fadeInLeft" role="menu">
+                        <div class="dropdown-header">Rewards Menu</div>
+                        <li><a href="{% url 'rewards:reward_index' %}">Rewards Home</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </nav>
         <!-- end sidebar -->
