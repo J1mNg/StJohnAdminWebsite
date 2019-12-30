@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'CadetApp',
     'RollMarkingApp',
     'FinancesApp',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,6 +67,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+
+            'libraries':{
+            'apptags': 'RollMarkingApp.roll_templatetags.apptags',
+
+            }
         },
     },
 ]
@@ -122,3 +128,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
