@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'CadetApp',
     'RollMarkingApp',
     'FinancesApp',
+    'RewardApp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
