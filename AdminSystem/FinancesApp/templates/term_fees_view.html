@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style='width:40%'>
+  <h2>Paid Term Fees</h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Delete</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for termfee in all_cadets.paid %}
+      <tr>
+        <td>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'finances:termfee-delete' termfee.id %}">Delete</a>
+        </td>
+        <td>{{ termfee.cadet }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan=2>No Cadet has paid yet</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="container" style='width:40%'>
+  <h2>Not Paid Term Fees</h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for termfee in all_cadets.not_paid %}
+      <tr>
+        <td>{{ termfee.firstname }} {{ termfee.lastname }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td>All Cadets have paid</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}

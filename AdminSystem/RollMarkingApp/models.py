@@ -16,17 +16,20 @@ class Meeting(models.Model):
     def __str__(self):
         return "term " + str(self.term) + " " + str(self.date)
 
-class Attendance(models.Model):
+class Meeting_Cadet(models.Model):
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
     cadet = models.ForeignKey(Cadet, on_delete=models.CASCADE)
+
+    class Meta:
+        abstract = True
+
+class Attendance(Meeting_Cadet):
     uniform = models.BooleanField()
 
     def __str__(self):
         return str(self.cadet) + " " + str(self.meeting)
 
-class Absence(models.Model):
-    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
-    cadet = models.ForeignKey(Cadet, on_delete=models.CASCADE)
+class Absence(Meeting_Cadet):
     REASON_CODES = [
         ('u', 'Unexplained'),
         ('e', 'Exams'),
