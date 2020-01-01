@@ -4,13 +4,13 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 
-from .models import TermFee
+from .models import TermFee, Expense
 from RollMarkingApp.models import Meeting
 from CadetApp.models import Cadet
 
 # Create your views here.
 def index(request):
-    return render(request, "finances_index.html")
+    return render(request, "FinancesApp/finances_index.html")
 
 # CreateView --> creates a row in the table (TermFees)
 # different to FormView --> for displaying a form
@@ -19,7 +19,7 @@ def index(request):
 ###success message wrapped in green
 class TermFeeCreateView(SuccessMessageMixin, CreateView):
     model = TermFee
-    template_name = 'term_fees_form.html'
+    template_name = 'FinancesApp/termfee_form.html'
     initial = {'amount': '20'}
     fields = '__all__'
     # redirect URL --> app name:view name
@@ -28,8 +28,10 @@ class TermFeeCreateView(SuccessMessageMixin, CreateView):
 
 # ListView --> iterates over all the objects of a model for displaying purposes
 # Suppose we want to filter these objects --> we have to redefine get_queryset (the queryset that ListView returns)
+
+### URLs to link to ListView
 class TermFeeListView(ListView):
-    template_name = 'term_fees_view.html'
+    template_name = 'FinancesApp/termfee_view.html'
     # returns queryset called 'all_cadets'
     context_object_name = 'all_cadets'
 
@@ -47,4 +49,13 @@ class TermFeeListView(ListView):
 
 class TermFeeDeleteView(DeleteView):
     model = TermFee
-    success_url = reverse_lazy('finances:finances_index')
+    success_url = reverse_lazy('finances:termfee-create')
+
+
+class ExpenseCreateView(SuccessMessageMixin, CreateView):
+    model = Expense
+    template_name = 'FinancesApp/expense_form.html'
+    fields = '__all__'
+    # redirect URL --> app name:view name
+    success_url = reverse_lazy('finances:expense-create')
+    success_message = "%(cadet)s has an expense of %(amount)s"
