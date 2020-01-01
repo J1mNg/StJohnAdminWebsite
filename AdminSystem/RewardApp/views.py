@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 # from .forms import EditCadetInformationForm
 
-# from RewardApp.models import Reward
+from RewardApp.models import Reward, User_Reward_Log
 
 # Create your views here.
 def reward_index(request):
