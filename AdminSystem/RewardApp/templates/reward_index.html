@@ -4,4 +4,9 @@
 
 <h1> St John Ambulance: Rewards </h1>
 
+{% for cadet in object_list.cadets %}
+    <p> {{ cadet.firstname }} </p>
+    {{ object_list.flag }}
+{% endfor %}
+
 {% endblock content %}

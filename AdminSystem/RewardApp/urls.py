@@ -20,5 +20,5 @@ from RewardApp import views
 app_name='rewards'
 
 urlpatterns = [
-    path('', views.reward_index, name='reward_index'),
+    path('', views.rewards_index_view.as_view(), name='reward_index'),
 ]

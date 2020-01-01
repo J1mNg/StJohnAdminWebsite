@@ -4,15 +4,15 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from CadetApp.models import Cadet
 
 # Create your models here.
-class Reward_Band(models.Model):
+class Reward_Band(models.Model,):
     id = models.AutoField(primary_key=True)
     reward_band = models.IntegerField(null=True, blank=False)
-    required_points = models.PositiveIntegerField(null=True, blank=False)
+    required_hours = models.PositiveIntegerField(null=True, blank=False)
 
     def __str__(self):
-        return "Band {}: Points Required - {}".format(self.reward_band, self.required_points)
+        return "Band {}: Hours Required - {}".format(self.reward_band, self.required_hours)
 
-class Reward(models.Model):
+class Reward(models.Model,):
     name = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=3, decimal_places=2, default=0, validators=[MinValueValidator(0.00)])
     required_points = models.ForeignKey(Reward_Band, on_delete=models.SET_NULL, null=True)
@@ -24,7 +24,7 @@ class Reward(models.Model):
     def __str__(self):
         return self.name
 
-class User_Reward_Log(models.Model):
+class User_Reward_Log(models.Model,):
     id = models.AutoField(primary_key=True)
     cadet = models.ForeignKey(Cadet, on_delete=models.CASCADE)
     reward = models.ForeignKey(Reward, on_delete=models.CASCADE)
