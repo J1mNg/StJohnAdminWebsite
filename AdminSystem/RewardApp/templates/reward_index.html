@@ -1,15 +1,54 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
 <h1> St John Ambulance: Rewards </h1>
-
 <div class="container">
     <h2> Cadets who are close to next reward tier </h2>
-    {% for cadet in object_list.cadets %}
-        <p> {{ cadet.name }} needs {{ cadet.pts_needed }} hours to achieve 
-        tier {{ cadet.tier_to_be_reached }}. (curr hours: {{ cadet.current_hours }}) </p>
-    {% endfor %}
 </div>
 
+<div class="container">
+    <input type="button" id="toggleA" value="TableA">
+    <input type="button" id="toggleB" value="TableB">
+</div>
+
+<div class="container">
+    <table class="table" id="tableA">
+        <thead>
+            <tr>
+                <th scope="col">Cadet Name</th>
+                <th scope="col">Hours Needed To Next Tier</th>
+                <th scope="col">Next Tier</th>
+                <th scope="col">Total Hours</th>
+            </th>
+        </thead>
+        <tbody>
+            {% for cadet in object_list.cadets %}
+                <th>{{ cadet.name }}</td>  
+                <td>{{ cadet.pts_needed }}</td> 
+                <td>{{ cadet.tier_to_be_reached }}</td>
+                <td>{{ cadet.current_hours }}</td>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="table" id="tableB" style="display:none">
+        <thead>
+            <tr>
+                <th scope="col">Cadet Name</th>
+                <th scope="col">Reward Tier</th>
+                <th scope="col">Rewards</th>
+            </th>
+        </thead>
+        <tbody>
+            {% for cadet in object_list.cadets_get_reward %}
+                {% comment %} <td>{{ cadet.name }}</td>  
+                <td>{{ cadet.pts_needed }}</td> 
+                <td>{{ cadet.tier_to_be_reached }}</td>
+                <td>{{ cadet.current_hours }}</td> {% endcomment %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="{% static '/js/table_toggle.js' %}"></script>
 {% endblock content %}

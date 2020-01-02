@@ -19,6 +19,7 @@ class rewards_index_view(ListView):
         reward_tier = Reward_Band.objects.all()
 
         cadets_list = []
+        cadets_need_to_get_reward_list = []
 
         for cadet in cadets:
             for tier in reward_tier:
@@ -33,23 +34,6 @@ class rewards_index_view(ListView):
                         cadets_list.append(cadet_info)
                         break
 
-        queryset = {'cadets': cadets_list}
+        queryset = {'cadets': cadets_list, 'cadets_get_reward': cadets_need_to_get_reward_list}
 
         return queryset
-
-    # class TermFeeListView(ListView):
-    # template_name = 'FinancesApp/termfee_view.html'
-    # # returns queryset called 'all_cadets'
-    # context_object_name = 'all_cadets'
-
-    # #kwargs --> the values we pass into URL
-    # def get_queryset(self):
-    #     # get all objects in TermFee with a meeting whose term and date__year is the same as the one passed into urls
-    #     # date__year --> gets the year from a date field
-    #     paid = TermFee.objects.filter(meeting__term=self.kwargs['term'], meeting__date__year=self.kwargs['year'])
-    #     # paid.values('cadet') --> returns a list of dictionaries --> [{'cadet':pk_1}, {'cadet':pk_2} ...]
-    #     # exclude all cadet objects with a primary key in the query set of paid.values('cadet')
-    #     not_paid = Cadet.objects.exclude(user_id__in=paid.values('cadet'))
-    #     # partition the query set
-    #     queryset = {'paid':paid, 'not_paid':not_paid}
-    #     return queryset
