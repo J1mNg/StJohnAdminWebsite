@@ -19,13 +19,15 @@ class rewards_index_view(ListView):
         reward_tier = Reward_Band.objects.all()
 
         cadets_list = list(cadets)
+        new_list = []
 
         for cadet in cadets_list:
             for tier in reward_tier:
                 if tier.reward_band > 0:
-                    if not (0 < (cadet.total_duty_hours - tier.required_hours) <= 5):
-                        cadets_list.remove(cadet)
-                        break;
+                    if (0 < abs(cadet.total_duty_hours - tier.required_hours) <= 5):
+                        new_list.append(cadet)
+                        break
+        print(new_list)
 
         queryset = {'cadets': cadets}
 
