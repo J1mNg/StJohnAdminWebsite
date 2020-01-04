@@ -1,12 +1,66 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
-<h1> St John Ambulance: Rewards </h1>
+<h1> Rewards Dashboard </h1>
+<div class="container text-center">
+    <h2 id="headingA"> Cadets who are close to next reward tier </h2>
+</div>
 
-{% for cadet in object_list.cadets %}
-    <p> {{ cadet.firstname }} </p>
-    {{ object_list.flag }}
-{% endfor %}
+<div class="container">
+    <div class="row">
+    <div class="col-md-12 text-center">
+        <div class="btn-group btn-group-lg">
+                <input type="button" id="toggleA" value="Cadets close to rewards" class="btn btn-primary">
+                <input type="button" id="toggleB" value="Cadets yet to receive rewards" class="btn btn-secondary">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <br>
+    <table class="table" id="tableA">
+        <thead>
+            <tr>
+                <th scope="col">Cadet Name</th>
+                <th scope="col">Hours Needed To Next Tier</th>
+                <th scope="col">Next Tier</th>
+                <th scope="col">Total Hours</th>
+            </th>
+        </thead>
+        <tbody>
+            {% for cadet in object_list.cadets %}
+                <tr>
+                    <th scope="col">{{ cadet.name }}</td>  
+                    <td scope="col">{{ cadet.pts_needed }}</td> 
+                    <td scope="col">{{ cadet.tier_to_be_reached }}</td>
+                    <td scope="col">{{ cadet.current_hours }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="table" id="tableB" style="display:none">
+        <thead>
+            <tr>
+                <th scope="col">Cadet Name</th>
+                <th scope="col">Reward Tier</th>
+                <th scope="col">Rewards</th>
+            </th>
+        </thead>
+        <tbody>
+            {% for cadet in object_list.cadets_get_reward %}
+                <tr>
+                    <td>{{ cadet.name }}</td>  
+                    <td>{{ cadet.tier }}</td>
+                    <td>{{ cadet.rewards }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="{% static '/js/table_toggle.js' %}"></script>
 
 {% endblock content %}

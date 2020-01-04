@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheet %}
+{% csrf_token %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+{% endblock stylesheet %}
+
+{% block javascript %}
+{% csrf_token %}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function () {
+    $('#all_rewards_table').DataTable();
+} );
+</script>
+
+{% endblock javascript %}
+
+{% block content %}
+
+<div>
+    <h1 style=' text-align: center;'> Admin Rewards </h1>
+    <div style="overflow-x:auto;">
+        <table class="table searchable sortable display" id="all_rewards_table">
+            <thead>
+                <tr>
+                    <th scope="col">Cadet Name</th>
+                    <th scope="col">Reward Tier</th>
+                    <th scope="col">Recieved Rewards</th>
+                    <th scope="col">Date Recieved</th>
+                </th>
+            </thead>
+            <tbody>
+                {% for reward_log in reward_logs %}
+                    <tr>
+                        <td>{{ reward_log.cadet.firstname }} {{ reward_log.cadet.lastname }}</td>
+                        <td>{{ reward_log.reward_tier }} </td>
+                        <td>{{ reward_log.reward.name }} </td>
+                        <td>{{ reward_log.reward_claim_date }} </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

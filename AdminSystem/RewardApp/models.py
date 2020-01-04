@@ -8,13 +8,14 @@ class Reward_Band(models.Model,):
     id = models.AutoField(primary_key=True)
     reward_band = models.IntegerField(null=True, blank=False)
     required_hours = models.PositiveIntegerField(null=True, blank=False)
+    rewards_list = models.ManyToManyField('Reward', blank=True)
 
     def __str__(self):
         return "Band {}: Hours Required - {}".format(self.reward_band, self.required_hours)
 
-class Reward(models.Model,):
+class Reward(models.Model):
     name = models.CharField(max_length=50)
-    price = models.DecimalField(max_digits=3, decimal_places=2, default=0, validators=[MinValueValidator(0.00)])
+    price = models.DecimalField(max_digits=35, decimal_places=2, default=0, validators=[MinValueValidator(0.00)])
     required_points = models.ForeignKey(Reward_Band, on_delete=models.SET_NULL, null=True)
     source = models.CharField(max_length=50, default="unknown")
     link = models.CharField(max_length=100, default="Not Applicable")
@@ -27,6 +28,7 @@ class Reward(models.Model,):
 class User_Reward_Log(models.Model,):
     id = models.AutoField(primary_key=True)
     cadet = models.ForeignKey(Cadet, on_delete=models.CASCADE)
+    reward_tier = models.PositiveIntegerField(blank=False, default=0)
     reward = models.ForeignKey(Reward, on_delete=models.CASCADE)
     reward_claim_date = models.DateField(null=True)
 

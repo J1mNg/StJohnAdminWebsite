@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheet %}
+{% csrf_token %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+{% endblock stylesheet %}
+
+{% block javascript %}
+{% csrf_token %}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function () {
+    $('#all_rewards_table').DataTable();
+} );
+</script>
+
+{% endblock javascript %}
+
+{% block content %}
+
+<div>
+    <h1 style=' text-align: center;'> All Rewards List </h1>
+    <div style="overflow-x:auto;">
+        <table class="table searchable sortable display" id="all_rewards_table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col"> Name </th>
+                <th scope="col"> Cost </th>
+                <th scope="col"> Required Points </th>
+                <th scope="col"> source </th>
+                <th scope="col"> link </th>
+                <th scope="col"> comments </th>
+                <th scope="col" nowrap="nowrap" onclick="sortTable(6)"> IsActive </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for reward in object_list.rewards %}
+                <tr>
+                    <th style="border-color:black;"> {{ reward.name }} </th>
+                    <td style="border-color:black;"> {{ reward.price }} </td>
+                    <td style="border-color:black;"> {{ reward.required_points }} </td>
+                    <td style="border-color:black;"> {{ reward.source }} </td>
+                    <td style="border-color:black;"><a href="{{reward.link}}">{{ reward.link }}</a> </td>
+                    <td style="border-color:black;"> {{ reward.comments }} </td>
+                    <td style="border-color:black;"> {{ reward.IsActive }} </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

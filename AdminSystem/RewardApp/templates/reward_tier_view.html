@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheet %}
+{% csrf_token %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+{% endblock stylesheet %}
+
+{% block javascript %}
+{% csrf_token %}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function () {
+    $('#all_rewards_table').DataTable();
+} );
+</script>
+
+{% endblock javascript %}
+
+{% block content %}
+
+<div class="container">
+    <h1 style=' text-align: center;'> All Rewards List </h1>
+    <div style="overflow-x:auto;">
+        <table class="table searchable sortable display" id="all_rewards_table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col"> Reward Tier </th>
+                <th scope="col"> Required Hours </th>
+                <th scope="col"> Rewards </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for reward in object_list.rewards %}
+                <tr>
+                    <th style="border-color:black;"> {{ reward.reward_band }} </th>
+                    <td style="border-color:black;"> {{ reward.required_hours }} </td>
+                    <td style="border-color:black;"> {{ reward.rewards }} </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
