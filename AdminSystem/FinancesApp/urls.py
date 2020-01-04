@@ -20,8 +20,9 @@ from FinancesApp import views
 app_name='finances'
 
 urlpatterns = [
-    path('', views.index, name='finances_index'),
-    path('view_termfees/<int:year>/term_<int:term>', views.TermFeeListView.as_view(), name='termfee-list'),
+    path('', views.financesIndex, name='finances_index'),
+    path('view_finances/<int:year>/term_<int:term>/month_<int:month>/', views.FinancesListView.as_view(), name='view-finances'),
+    path('view_termfees/<int:year>/term_<int:term>/', views.TermFeeListView.as_view(), name='termfee-list'),
     path('pay_termfees/', views.TermFeeCreateView.as_view(), name='termfee-create'),
     path('delete_termfees/<int:pk>/', views.TermFeeDeleteView.as_view(), name='termfee-delete'),
     path('add_expenses/', views.ExpenseCreateView.as_view(), name='expense-create')

@@ -2,6 +2,10 @@
 {% block content %}
 <form  method="post">
   {% csrf_token %}
+  {% if messages %}
+  <ul class="messages">
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ messages }}</li>
+  {% endif %}
   <table class=table>
     <thead class='thead-dark'>
       <tr>

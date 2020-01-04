@@ -21,8 +21,9 @@ from RollMarkingApp import views
 app_name='rollmarking'
 
 urlpatterns = [
-    path('', views.index, name='rollMarkingIndex'),
+    path('', views.rollmarkingIndex, name='rollMarkingIndex'),
     path('addmeetings/', views.form_addmeetings, name="form_addmeetings"),
     path('view_attendance/<int:year>/term_<int:term>/', views.view_attendance, name="view_attendance"),
     path('mark_attendance/<int:year>/<int:month>/<int:day>', views.mark_attendance, name="mark_attendance"),
+    path('add_attendance/', views.AttendanceCreateView.as_view(), name="add_attendance"),
 ]

@@ -1,5 +1,35 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-    <h1> St John Ambulance: Finances </h1>
+<form method="POST">
+  {% csrf_token %}
+  <div class="container">
+    <h3>Select Year:</h3>
+    <div class="content-section">
+      {{ form.year }}
+    </div>
+  </div>
+  <div class="container">
+    <h3>View financial summary by:</h3>
+    <ul>
+      <li>Year <button class="btn btn-outline-info" type="submit" name="view_year_finances">Go</button></li>
+      <li>term for {{ form.term_finances}} <button class="btn btn-outline-info" type="submit" name="view_term_finances">Go</button></li>
+      <li>month for {{ form.month}} <button class="btn btn-outline-info" type="submit" name="view_month_finances">Go</button></li>
+    </ul>
+  </div>
+  <div class="container">
+    <h3>Term Fees</h3>
+    <ul>
+      <li>View term fee payments for {{ form.term_termfees }} <button class="btn btn-outline-info" type="submit" name="view_term_termfees">Go</button></li>
+      <li><a href="{% url 'finances:termfee-create' %}">Add term fees</a></li>
+    </ul>
+  </div>
+  <div class="container">
+    <h3>Expenses:</h3>
+    <ul>
+      <li><a href="{% url 'finances:expense-create' %}">Add expenses</a></li>
+    </ul>
+  </div>
+</form>
+
 {% endblock content %}

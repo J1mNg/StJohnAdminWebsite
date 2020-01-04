@@ -71,8 +71,8 @@ TEMPLATES = [
             ],
 
             'libraries':{
-            'apptags': 'RollMarkingApp.roll_templatetags.apptags',
-
+            'apptags':'RollMarkingApp.roll_templatetags.apptags',
+            'financetags':'FinancesApp.templatetags_finances.financetags',
             }
         },
     },

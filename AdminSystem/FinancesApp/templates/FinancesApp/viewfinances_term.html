@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% load financetags %}
+{% block JavaScript %}
+<script src="{% static '/js/financesadd.js' %}"></script>
+{% endblock JavaScript %}
+{% block content %}
+
+<table class="table" id="finance_summary_table">
+  <thead class='thead-dark'>
+    <tr>
+      <th>Meeting No.</th>
+      <th>Date</th>
+      <th>Term Fees</th>
+      <th>Uniform Bond</th>
+      <th>Joining Fee</th>
+      <th>Income</th>
+      <th></th>
+      <th>Expenses</th>
+      <th></th>
+      <th>Net</th>
+  </thead>
+  <tbody>
+    {% for meeting in all_finances.meetings %}
+    <tr>
+      <th> {{ forloop.counter }} </th>
+      <th> {{ meeting.date }}</th>
+      <th> {{ meeting.date|filter_termfees }}</th>
+      <th> {{ meeting.date|filter_uniformbond }}</th>
+      <th> {{ meeting.date|filter_joiningfee }}</th>
+      <th> {{ meeting.date|filter_income }}</th>
+      <th></th>
+      <th>{{ meeting.date|filter_expenses }}</th>
+      <th></th>
+      <th> {{ meeting.date|filter_profit }}</th>
+    </tr>
+    {% endfor %}
+    <tr>
+      <th>total</th>
+      {% for i in '012345678'|make_list %}
+      <th></th>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
+{% endblock content %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from CadetApp.models import Cadet
 
 # Create your models here.
@@ -29,6 +30,13 @@ class Attendance(Meeting_Cadet):
     def __str__(self):
         return str(self.cadet) + " " + str(self.meeting)
 
+    def clean(self):
+        if Absence.objects.filter(meeting=self.meeting, cadet=self.cadet).exists():
+            raise ValidationError('Cadet cannot be present and absent at same time')
+
+    class Meta:
+        unique_together = ('meeting', 'cadet',)
+
 class Absence(Meeting_Cadet):
     REASON_CODES = [
         ('u', 'Unexplained'),
@@ -40,3 +48,10 @@ class Absence(Meeting_Cadet):
 
     def __str__(self):
         return str(self.cadet) + " " + str(self.meeting)
+
+    def clean(self):
+        if Attendance.objects.filter(meeting=self.meeting, cadet=self.cadet).exists():
+            raise ValidationError('Cadet cannot be present and absent at same time')
+
+    class Meta:
+        unique_together = ('meeting', 'cadet',)

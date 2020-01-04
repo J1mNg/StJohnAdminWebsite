@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  <div class="container">
+    <h3>Select Year:</h3>
+    <div class="content-section">
+      {{ form.year }}
+    </div>
+  </div>
+  <div class="container">
+    <h3>Attendance:</h3>
+    <ul>
+      <li>mark attendance for {{ form.month }} {{ form.day }} <button class="btn btn-outline-info" type="submit" name="go_mark_attendance">Go</button></li>
+      <li>view attendance by term for {{ form.term}} <button class="btn btn-outline-info" type="submit" name="go_view_attendance">Go</button></li>
+      <li>add attendance for individual student</li>
+    </ul>
+  </div>
+  <div class="container">
+    <h3>Manange meetings</h3>
+    <ul>
+      <li><a href="{% url 'rollmarking:form_addmeetings' %}">Add meetings</a></li>
+    </ul>
+  </div>
+</form>
+
+{% endblock content %}

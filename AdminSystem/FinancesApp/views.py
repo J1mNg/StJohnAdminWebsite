@@ -1,21 +1,60 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DeleteView
+from django.views.generic import FormView, ListView, CreateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 
 from .models import TermFee, Expense
 from RollMarkingApp.models import Meeting
 from CadetApp.models import Cadet
 
+from .forms import IndexRedirectForm
+
+import datetime
 # Create your views here.
-def index(request):
-    return render(request, "FinancesApp/finances_index.html")
+
+### Not finished
+def financesIndex(request):
+    now = datetime.datetime.now()
+
+    if request.method == 'POST':
+        get_request = request.POST
+        form = IndexRedirectForm(get_request, initial={'year': now.year})
+        if form.is_valid():
+            data = form.cleaned_data
+            if 'view_year_finances' in get_request:
+                return redirect('finances:view-finances', year=data['year'], term=0, month=0)
+            elif 'view_term_finances' in get_request:
+                return redirect('finances:view-finances', year=data['year'], term=data['term_finances'], month=0)
+            elif 'view_month_finances' in get_request:
+                return redirect('finances:view-finances', year=data['year'], term=0, month=data['month'])
+            elif 'view_term_termfees' in get_request:
+                return redirect('finances:termfee-list', year=data['year'], term=data['term_termfees'])
+    else:
+        #initial doesn't work
+        form = IndexRedirectForm(initial={'year': now.year})
+
+    return render(request, 'FinancesApp/finances_index.html', {'form': form})
+
+class FinancesListView(ListView):
+    template_name = 'FinancesApp/viewfinances_term.html'
+    context_object_name = 'all_finances'
+
+    def get_queryset(self):
+        meetings=[]
+        if self.kwargs['month'] == 0 and self.kwargs['term'] == 0:
+            meetings = Meeting.objects.all()
+        elif self.kwargs['month'] == 0:
+            meetings = Meeting.objects.filter(term=self.kwargs['term'])
+        elif self.kwargs['term'] == 0:
+            meetings = Meeting.objects.filter(date__month=self.kwargs['month'])
+        queryset = {'meetings':meetings}
+        return queryset
+
 
 # CreateView --> creates a row in the table (TermFees)
 # different to FormView --> for displaying a form
 
-###default value for meeting needs to be done --> in initial
 ###success message wrapped in green
 class TermFeeCreateView(SuccessMessageMixin, CreateView):
     model = TermFee
@@ -29,7 +68,7 @@ class TermFeeCreateView(SuccessMessageMixin, CreateView):
 # ListView --> iterates over all the objects of a model for displaying purposes
 # Suppose we want to filter these objects --> we have to redefine get_queryset (the queryset that ListView returns)
 
-### URLs to link to ListView
+### column for when they paid
 class TermFeeListView(ListView):
     template_name = 'FinancesApp/termfee_view.html'
     # returns queryset called 'all_cadets'
@@ -49,7 +88,7 @@ class TermFeeListView(ListView):
 
 class TermFeeDeleteView(DeleteView):
     model = TermFee
-    success_url = reverse_lazy('finances:termfee-create')
+    success_url = reverse_lazy('finances:finances_index')
 
 
 class ExpenseCreateView(SuccessMessageMixin, CreateView):
