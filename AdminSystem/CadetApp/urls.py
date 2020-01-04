@@ -22,6 +22,6 @@ app_name='cadets'
 urlpatterns = [
     path('', views.cadets, name='cadets'),
     path('cadets_index', views.index, name='cadets_index'),
-    path('edit_cadet/<int:cadet_id>/', views.edit_cadet),
+    path('edit_cadet/<int:cadet_id>/<int:reward_tier>', views.edit_cadet),
     path('add_cadet/', views.add_cadet, name='add_cadet.html'),
 ]

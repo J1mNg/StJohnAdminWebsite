@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheet %}
+{% csrf_token %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+{% endblock stylesheet %}
+
+{% block javascript %}
+{% csrf_token %}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function () {
+    $('#all_rewards_table').DataTable();
+} );
+</script>
+
+{% endblock javascript %}
+
+{% block content %}
+
+<div>
+    <h1 style=' text-align: center;'> Admin Rewards </h1>
+    <div style="overflow-x:auto;">
+        <table class="table searchable sortable display" id="all_rewards_table">
+            <thead>
+                <tr>
+                    <th scope="col">Cadet Name</th>
+                    <th scope="col">Reward Tier</th>
+                    <th scope="col">Rewards</th>
+                    <th scope="col">Confirm Reward</th>
+                </th>
+            </thead>
+            <tbody>
+                {% for cadet in cadets_get_reward %}
+                    <tr>
+                        <td>{{ cadet.name }}</td>  
+                        <td>{{ cadet.tier }}</td>
+                        <td>
+                        <form method="POST" action="/rewards/confirm_reward/{{ cadet.pk }}/{{ cadet.tier }}/">
+                            {% csrf_token %}
+                            <select name="reward" value="+" id="reward_selection">
+                                {% for reward in cadet.rewards %}
+                                    <option value="{{ reward.name }}">Reward: {{ reward.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td> <input name="reward_submit" type='submit' value ='Confirm Reward' class="btn btn-primary"></td>
+                        </form>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
