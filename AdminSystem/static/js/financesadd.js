@@ -1,3 +1,12 @@
+$(document).ready(function() {
+  get_sum_html_column(2);
+  get_sum_html_column(3);
+  get_sum_html_column(4);
+  get_sum_html_column(5);
+  get_sum_html_column(7);
+  get_sum_html_column(9);
+});
+
 function get_sum_html_column(colNumber) {
   let table, i, row, sum=0;
   table = document.getElementById("finance_summary_table");
@@ -14,5 +23,5 @@ function get_sum_html_column(colNumber) {
     if (!isNaN(thisNumber))
       sum += thisNumber;
   }
-  table.rows[nRows-1].cells[colNumber].innerHTML=sum;
+  table.rows[nRows].cells[colNumber].innerHTML=sum.toString();
 }

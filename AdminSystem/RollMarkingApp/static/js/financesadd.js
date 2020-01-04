@@ -4,7 +4,7 @@ $(document).ready(function() {
   get_sum_html_column(4);
   get_sum_html_column(5);
   get_sum_html_column(7);
-  get_sum_html_column(9);     
+  get_sum_html_column(9);
 });
 
 function get_sum_html_column(colNumber) {
