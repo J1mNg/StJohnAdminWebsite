@@ -1,12 +1,34 @@
 {% extends "base.html" %}
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+{% endblock stylesheet %}
+{% block javascript%}
+<script src="{% static '/js/toggle_uniform_absence.js' %}"></script>
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function () {
+    $('#table_mark_attendance').DataTable({"pageLength": 50});
+} );
+</script>
+{% endblock javascript%}
 {% block content %}
 <form  method="post">
   {% csrf_token %}
-  {% if messages %}
-  <ul class="messages">
-      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ messages }}</li>
-  {% endif %}
-  <table class=table>
+  <div class="container">
+      {% if messages %}
+          {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                      {{ message }}
+              </div>
+          {% endfor %}
+      {% endif %}
+  </div>
+  <table class=table id="table_mark_attendance">
     <thead class='thead-dark'>
       <tr>
         <th>First Name</th>
@@ -16,21 +38,40 @@
         <th>Absence Reason</th>
       </tr>
     </thead>
-    {% for cadet in cadets %}
-      <tr>
-        <th>{{ cadet.firstname }}</th>
-        <th>{{ cadet.lastname }}</th>
-        <th><input type="checkbox" value="{{ cadet.pk }}" name="cadet_attendance"></th>
-        <th><input type="checkbox" value="{{ cadet.pk }}" name="cadet_uniform"></th>
-        <th><select name="cadet_absence">
-              <option value="u{{ cadet.pk }}">Unexplained</option>
-              <option value="e{{ cadet.pk }}">Exams</option>
-              <option value="r{{ cadet.pk }}">Religious</option>
-              <option value="o{{ cadet.pk }}">Other</option>
-            </select>
-        </th>
-      </tr>
-    {% endfor %}
+    {% if zip %}
+      {% for cadet, attendance, uniform, absence in zip %}
+        <tr>
+          <th>{{ cadet.firstname }}</th>
+          <th>{{ cadet.lastname }}</th>
+          <th><input type="checkbox" value="{{ cadet.pk }}" id="attendance_{{ cadet.pk }}" name="cadet_attendance" onchange='toggle_uniform_absence({{ cadet.pk }})' {% if attendance %} checked {% endif %}</th>
+          <th><input type="checkbox" value="{{ cadet.pk }}" id="uniform_{{ cadet.pk }}" name="cadet_uniform" {% if uniform %} checked {% endif %}></th>
+          <th><select name="cadet_absence" id="absence_{{ cadet.pk }}">
+                <option value="u{{ cadet.pk }}" {% if absence == 'u' %} selected {% endif %}>Unexplained</option>
+                <option value="e{{ cadet.pk }}" {% if absence == 'e' %} selected {% endif %}>Exams</option>
+                <option value="r{{ cadet.pk }}" {% if absence == 'r' %} selected {% endif %}>Religious</option>
+                <option value="o{{ cadet.pk }}" {% if absence == 'o' %} selected {% endif %}>Other</option>
+              </select>
+          </th>
+        </tr>
+      {% endfor %}
+    {% else %}
+      {% for cadet in cadets %}
+        <tr>
+          <th>{{ cadet.firstname }}</th>
+          <th>{{ cadet.lastname }}</th>
+          <th><input type="checkbox" value="{{ cadet.pk }}" id="attendance_{{ cadet.pk }}" name="cadet_attendance" onchange='toggle_uniform_absence({{ cadet.pk }})'></th>
+          <th><input type="checkbox" value="{{ cadet.pk }}" id="uniform_{{ cadet.pk }}" style="display:none" name="cadet_uniform"></th>
+          <th><select name="cadet_absence" id="absence_{{ cadet.pk }}">
+                <option value="u{{ cadet.pk }}">Unexplained</option>
+                <option value="e{{ cadet.pk }}">Exams</option>
+                <option value="r{{ cadet.pk }}">Religious</option>
+                <option value="o{{ cadet.pk }}">Other</option>
+              </select>
+          </th>
+        </tr>
+      {% endfor %}
+    {% endif %}
+
   </table>
   <button type="submit">Confirm Attendance</button>
 </form>
