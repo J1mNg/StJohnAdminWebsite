@@ -303,6 +303,20 @@ def update_db_view(request, data_type):
             # Create obj and save
             reward_tier_obj = reward_tier_factory.create_reward_band(reward_tier, reward_required_hours)
             reward_tier_obj.save()
+
+            try:
+                for i in range(2, 10):
+                    reward_name = column[i]
+                    if reward_name not in (None, ""):
+                        try:
+                            reward_obj = Reward.objects.get(name=reward_name)
+                            reward_tier_obj.rewards_list.add(reward_obj)
+                            reward_tier_obj.save()
+                        except Reward.DoesNotExist:
+                            break
+            except IndexError:        
+                pass
+                
             
         messages.success(request, 'Reward Tier Database has successfully been updated. Please go to admin dashboard to configure individual rewards for each tier.')
 
