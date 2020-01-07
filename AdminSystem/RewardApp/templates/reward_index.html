@@ -5,7 +5,9 @@
 
 <h1> Rewards Dashboard </h1>
 <div class="container text-center">
+    <br>
     <h2 id="headingA"> Cadets who are close to next reward tier </h2>
+    <br>
 </div>
 
 <div class="container">
@@ -54,7 +56,15 @@
                 <tr>
                     <td>{{ cadet.name }}</td>  
                     <td>{{ cadet.tier }}</td>
-                    <td>{{ cadet.rewards }}</td>
+                    <td>
+                    {% for reward_name in cadet.rewards %}
+                        {% if not forloop.last %}
+                            {{ reward_name }},
+                        {% else %}
+                            {{ reward_name }}
+                        {% endif %}
+                    {% endfor %}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

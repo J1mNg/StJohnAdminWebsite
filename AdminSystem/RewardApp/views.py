@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
 from django.db.models import Q
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.cache import never_cache
 from django.utils.decorators import method_decorator
 from django.db import models
@@ -29,6 +29,9 @@ class RewardItemFactory():
         return reward
 
 # Helper Functions
+def check_admin(user):
+   return user.is_superuser
+
 def check_received_rewards(cadet, reward_tier):
     """[checks if given reward has recieved the reward for the given reward tier]
     
@@ -176,6 +179,7 @@ class reward_tier_view(ListView):
 
         return queryset
 
+@user_passes_test(check_admin)
 def admin_reward_view(request):
     cadets = Cadet.objects.all()
     reward_log = User_Reward_Log.objects.all()
@@ -242,11 +246,13 @@ def cadet_reward_detail_view(request, cadet_id):
     else:
         return render(request, "cadet_reward_detail_view.html", queryset)
 
+@user_passes_test(check_admin)
 def update_rewards_csv_view(request):
     template_name = "update_db_form.html"
 
     return render(request, template_name)
 
+@user_passes_test(check_admin)
 def update_db_view(request, data_type):
     if request.method == 'GET':
         return redirect('/rewards/updateRewards/')
