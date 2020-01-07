@@ -32,4 +32,6 @@ urlpatterns = [
     path('confirm_reward/<int:cadet_id>/<int:reward_tier>/', views.confirm_reward_view, name="confirm_reward_view"),
     path('cadetReward/', views.rewards_cadets_list_view, name="cadet_reward_list_view"),
     path('cadetReward/detailView/<int:cadet_id>/', views.cadet_reward_detail_view, name="cadet_reward_detail_view"),
+    path('updateRewards/', views.update_rewards_csv_view, name="update_db_index_view"),
+    path('updateDB/<str:data_type>/', staff_member_required(views.update_db_view), name="update_db"),
 ]

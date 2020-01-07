@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheet %}{% endblock stylesheet %}
+
+{% block javascript %}
+{% comment %} <script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+})
+</script> {% endcomment %}
+{% endblock javascript %}
+
+{% block content %}
+
+<div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                    {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="container">
+    <h1> Upload Reward List and Tier List </h1>
+    <br>
+</div>
+
+{% comment %} Updating All Rewards DB {% endcomment %}
+<div class="container">
+    <div class="row">
+        <h3> Update All Rewards Database </h3>
+        <i style="margin-left: 0.5em" class="fas fa-info-circle fa-2x fa-fw" data-toggle="tooltip" title="Coumns for CSV File must be [tier, hours, rewards]"></i>
+    </div>
+    <br>
+    <form method="POST" action="/rewards/updateDB/allRewards/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input name="file_rewards_all" type="file" accept=".csv" onchange='triggerValidation(this)'>
+        <br><br>
+        <button type='submit' class="btn btn-success">Update Database</button>
+    </form>
+    <br>
+</div>
+
+{% comment %} Updating Rewards Tier DB {% endcomment %}
+<div class="container">
+    <br>
+    <div class="row">
+        <h3> Update Reward Tier Database </h3>
+        <i style="margin-left: 0.5em" class="fas fa-info-circle fa-2x fa-fw" data-toggle="tooltip" title="Coumns for CSV File must be [Name, Type, Source, Cost, Band, FR_Required, Age_Restricted, Link]"></i>
+    </div>
+    <br>
+
+    <form method="POST" action="/rewards/updateDB/rewardTier/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input name="file_rewards_tier" type="file" accept=".csv" onchange='triggerValidation(this)'>
+        <br><br>
+        <button type='submit' class="btn btn-success">Update Database</button>
+    </form>
+</div>
+
+<script src="{% static '/js/validate_csv.js' %}"></script>
+{% endblock content %}
