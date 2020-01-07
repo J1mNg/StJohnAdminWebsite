@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
-from django.db.models import Q
+from django.db.models import ObjectDoesNotExist, Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.cache import never_cache
 from django.utils.decorators import method_decorator
 from django.db import models
+from django.utils.datastructures import MultiValueDictKeyError
+from django.db.models.base import ObjectDoesNotExist
 
 import datetime
 import csv
@@ -257,68 +259,99 @@ def update_db_view(request, data_type):
     if request.method == 'GET':
         return redirect('/rewards/updateRewards/')
 
-    io_string = get_io_string(request, data_type)
+    try:
+        io_string = get_io_string(request, data_type)
 
-    reader = csv.reader(io_string, delimiter=",", quotechar='"')
-    next(reader, None) # skips CSV headers
+        reader = csv.reader(io_string, delimiter=",", quotechar='"')
+        next(reader, None) # skips CSV headers
 
-    if data_type == "allRewards":
-        Reward.objects.all().delete()
-        reward_name = reward_type = reward_source = reward_cost = reward_band = reward_link = reward_comments = ""
-        reward_isActive = False
+        if data_type == "allRewards":
+            Reward.objects.all().delete()
+            reward_name = reward_type = reward_source = reward_cost = reward_band = reward_link = reward_comments = ""
+            reward_isActive = False
 
-        reward_item_factory = RewardItemFactory()
+            reward_item_factory = RewardItemFactory()
 
-        for column in reader:
-            reward_name = column[0],
-            reward_source = column[2],
-            reward_cost = column[3],
-            reward_band = column[4],
-            reward_link = column[7],
+            for column in reader:
+                try:
+                    reward_name = column[0],
+                    reward_source = column[2],
+                    reward_cost = column[3],
+                    reward_band = column[4],
+                    reward_link = column[7],
 
-            try:
-                reward_band = int(reward_band[0])
-                reward_isActive = True
-                reward_req_pts_obj = Reward_Band.objects.get(reward_band = reward_band)
-            except ValueError: # If band is empty, reward is Inactive
-                reward_req_pts_obj = Reward_Band.objects.get(reward_band = 0)
-                reward_band = 0
-                reward_isActive = False
+                    try:
+                        reward_band = int(reward_band[0])
+                        reward_isActive = True
+                        reward_req_pts_obj = Reward_Band.objects.get(reward_band = reward_band)
+                    except ValueError: # If band is empty, reward is Inactive
+                        reward_req_pts_obj = Reward_Band.objects.get(reward_band = 0)
+                        reward_band = 0
+                        reward_isActive = False
+                    except Reward_Band.DoesNotExist:
+                        messages.warning(request, 'Failed to update database. Ensure correctness of file being submitted. (Columns)')
+                        break
 
-            # Create Obj and Save
-            reward_item_obj = reward_item_factory.create_reward_item(reward_name[0], reward_cost[0], reward_req_pts_obj, reward_source[0], reward_link[0], reward_comments, reward_isActive)
-            reward_item_obj.save()
+                    # Create Obj and Save
+                    reward_item_obj = reward_item_factory.create_reward_item(reward_name[0], reward_cost[0], reward_req_pts_obj, reward_source[0], reward_link[0], reward_comments, reward_isActive)
+                    
+                    try:
+                        reward_item_obj.save()
+                    except ValueError:
+                        messages.warning(request, 'Failed to update database. Please try again.')
+                        pass
+                except IndexError:
+                    messages.warning(request, 'Failed to update database. Ensure correctness of file being submitted. (Columns)')
+                    break
+                except Reward_Band.DoesNotExist:
+                    messages.warning(request, 'Failed to update database. Ensure Reward Tier Database exists. Try Updating "Reward Tier Database" first and try again.')
+                    break
 
-        messages.success(request, 'All Rewards Database has successfully been updated. Please go to admin dashboard to confirm successfull update.')
-    
-    elif data_type == "rewardTier":
-        Reward_Band.objects.all().delete() # Delete current reward band database
-        reward_tier = reward_required_hours = "" # Init variables
-        reward_tier_factory = RewardTierFactory() 
+            if len(list(messages.get_messages(request))) == 0:
+                messages.success(request, 'All Rewards Database has successfully been updated. Please go to admin dashboard to confirm successfull update.')
 
-        for column in reader: # For each entry in database, create a reward tier object, and make an entry into db
-            reward_tier = column[0]
-            reward_required_hours = column[1]
+        elif data_type == "rewardTier":
+            Reward_Band.objects.all().delete() # Delete current reward band database
+            reward_tier = reward_required_hours = "" # Init variables
+            reward_tier_factory = RewardTierFactory() 
 
-            # Create obj and save
-            reward_tier_obj = reward_tier_factory.create_reward_band(reward_tier, reward_required_hours)
-            reward_tier_obj.save()
-
-            try:
-                for i in range(2, 10):
-                    reward_name = column[i]
-                    if reward_name not in (None, ""):
-                        try:
-                            reward_obj = Reward.objects.get(name=reward_name)
-                            reward_tier_obj.rewards_list.add(reward_obj)
-                            reward_tier_obj.save()
-                        except Reward.DoesNotExist:
-                            break
-            except IndexError:        
+            try: 
+                if Reward.objects.all().count() == 0:
+                    messages.warning(request, 'Database updated. But Rewards database does not exist. Please Create a Rewards Database and update Rewards Tier again.')
+            except TypeError:
                 pass
-                
+
+            for column in reader: # For each entry in database, create a reward tier object, and make an entry into db
+                reward_tier = column[0]
+                reward_required_hours = column[1]
+
+                # Create obj and save
+                reward_tier_obj = reward_tier_factory.create_reward_band(reward_tier, reward_required_hours)
+
+                try:
+                    reward_tier_obj.save()
+                    
+                    try:
+                        for i in range(2, 10):
+                            reward_name = column[i]
+                            if reward_name not in (None, ""):
+                                try:
+                                    reward_obj = Reward.objects.get(name=reward_name)
+                                    reward_tier_obj.rewards_list.add(reward_obj)
+                                    reward_tier_obj.save()
+                                except Reward.DoesNotExist:
+                                    break
+                    except IndexError:        
+                        pass
+                except ValueError:
+                    messages.warning(request, 'Database has failed to update. Please check the file columns to ensure that they are in correct format')
+                    break
             
-        messages.success(request, 'Reward Tier Database has successfully been updated. Please go to admin dashboard to configure individual rewards for each tier.')
+            if len(list(messages.get_messages(request))) == 0:
+                messages.success(request, 'Reward Tier Database has successfully been updated. Please go to admin dashboard to configure individual rewards for each tier.')
+    
+    except MultiValueDictKeyError:
+        messages.warning(request, 'Failed to update database. Please try again.')
 
     # Redirect to upload page upon completion with message
     return redirect('/rewards/updateRewards/')
