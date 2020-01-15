@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from CadetApp.models import Cadet
 
 # Create your models here.
+# Reward Tier Model
 class Reward_Band(models.Model,):
     id = models.AutoField(primary_key=True)
     reward_band = models.IntegerField(null=True, blank=False)
@@ -13,6 +14,7 @@ class Reward_Band(models.Model,):
     def __str__(self):
         return "Band {}: Hours Required - {}".format(self.reward_band, self.required_hours)
 
+# Reward Model
 class Reward(models.Model):
     name = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=35, decimal_places=2, default=0, validators=[MinValueValidator(0.00)])

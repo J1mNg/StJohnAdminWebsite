@@ -11,7 +11,9 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <script>
 $(document).ready(function () {
-    $('#all_rewards_table').DataTable();
+    $('#all_rewards_table').DataTable({
+        "scrollX": true
+    });
 } );
 </script>
 
@@ -21,8 +23,9 @@ $(document).ready(function () {
 
 <div>
     <h1 style=' text-align: center;'> All Rewards List </h1>
-    <div style="overflow-x:auto;">
-        <table class="table searchable sortable display" id="all_rewards_table">
+    
+    <div style="width:800px; margin:0 auto;">
+        <table class="table display nowrap" id="all_rewards_table">
             <thead class="thead-dark">
             <tr>
                 <th scope="col"> Name </th>

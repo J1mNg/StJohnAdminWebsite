@@ -9,7 +9,7 @@
 
     <h1> Edit Cadet Information </h1>
     <br>
-    <form action="/cadets/" method="POST">
+    <form method="POST">
         {% csrf_token %}
         <table class="table table-striped">
         {{ form.as_table }}
