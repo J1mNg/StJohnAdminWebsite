@@ -1,4 +1,5 @@
 from django import forms
+from crispy_forms.helper import FormHelper
 
 class IndexRedirectForm(forms.Form):
     year = forms.IntegerField()
@@ -25,3 +26,8 @@ class IndexRedirectForm(forms.Form):
     ]
     month = forms.ChoiceField(choices=MONTH_CHOICES)
     term_termfees = forms.ChoiceField(choices=TERM_CHOICES)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_show_labels = False

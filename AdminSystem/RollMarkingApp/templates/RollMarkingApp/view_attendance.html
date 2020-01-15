@@ -1,59 +1,88 @@
 {% extends "base.html" %}
+{% load static %}
 {% load apptags %}
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+{% endblock stylesheet %}
+{% block javascript%}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function () {
+    $('#table_view_attendance').DataTable({"pageLength": 50, "scrollX":true});
+} );
+</script>
+{% endblock javascript%}
 {% block content %}
-<table class=table>
-  <thead class='thead-dark'>
-    <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
+<div style="width:90%;margin:0 auto">
+  <table class=table id="table_view_attendance">
+    <thead class='thead-dark'>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        {% for term_date in term_dates %}
+        <th>{{ term_date.date }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    {% for cadet in cadets %}
+      <tr style="border-color:black">
+        <th>{{ cadet.firstname }}</th>
+        <th>{{ cadet.lastname }}</th>
       {% for term_date in term_dates %}
-      <th>{{ term_date.date }}</th>
+        <th>
+        <table>
+            <!-- Check if cadet has attended on particular date -->
+            {% if cadet.pk|filter_cadet_attendance:term_date.pk %}
+            <tr>
+              <th bgcolor = "green">Present</th>
+            </tr>
+              <!-- Check if cadet has worn uniform or not if they attended -->
+              {% if cadet.pk|filter_cadet_uniform:term_date.pk %}
+              <tr>
+                  <th bgcolor = "green">Uniform</th>
+              <tr>
+              {% else %}
+              <tr>
+                  <th bgcolor = "red">None</th>
+              </tr>
+              {% endif %}
+
+            <!-- Cadet has not attended on particular date -->
+            {% else %}
+              {% if cadet.pk|filter_cadet_absence:term_date.pk %}
+              <tr>
+                <th bgcolor= "red">Absent </th>
+              </tr>
+                <!-- Reason code for not attending on particular date -->
+                {% if cadet.pk|filter_cadet_absence_reason:term_date.pk == "u"%}
+                <tr>
+                  <th bgcolor= "red">Unexplained</th>
+                </tr>
+                {% elif cadet.pk|filter_cadet_absence_reason:term_date.pk == "e"%}
+                <tr>
+                  <th bgcolor= "red">Exams</th>
+                </tr>
+                {% elif cadet.pk|filter_cadet_absence_reason:term_date.pk == "r" %}
+                <tr>
+                  <th bgcolor= "red">Religious</th>
+                </tr>
+                {% elif cadet.pk|filter_cadet_absence_reason:term_date.pk == "o" %}
+                <tr>
+                  <th bgcolor= "red">Other</th>
+                </tr>
+                {% endif  %}
+
+              <!-- Cadet is not in attendance or absence database, has not joined yet -->
+              {% else %}
+              <th bgcolor = "white">No Submission</th>
+              {% endif %}
+            {% endif %}
+        </table>
+        </th>
       {% endfor %}
-    </tr>
-  </thead>
-  {% for cadet in cadets %}
-    <tr style="border-color:black">
-      <th>{{ cadet.firstname }}</th>
-      <th>{{ cadet.lastname }}</th>
-    {% for term_date in term_dates %}
-      <th>
-      <table>
-          <!-- Check if cadet has attended on particular date -->
-          {% if cadet.pk|filter_cadet_attendance:term_date.pk %}
-            <th bgcolor = "green">Present</tr>
-
-            <!-- Check if cadet has worn uniform or not if they attended -->
-            {% if cadet.pk|filter_cadet_uniform:term_date.pk %}
-                <th bgcolor = "green">Uniform</th>
-            {% else %}
-                <th bgcolor = "red">None</th>
-            {% endif %}
-
-          <!-- Cadet has not attended on particular date -->
-          {% else %}
-            {% if cadet.pk|filter_cadet_absence:term_date.pk %}
-              <th bgcolor= "red">Absent</th>
-              <!-- Reason code for not attending on particular date -->
-              {% if cadet.pk|filter_cadet_absence_reason:term_date.pk == "E"%}
-                <th bgcolor= "red">Exams</th>
-              {% elif cadet.pk|filter_cadet_absence_reason:term_date.pk == "R" %}
-                <th bgcolor= "red">Religious</th>
-              {% elif cadet.pk|filter_cadet_absence_reason:term_date.pk == "O" %}
-                <th bgcolor= "red">Other</th>
-              {% endif  %}
-
-
-            <!-- Cadet is not in attendance or absence database, has not joined yet -->
-            {% else %}
-            <th bgcolor = "white">No Submission</th>
-            {% endif %}
-          {% endif %}
-      </table>
-      </th>
+      </tr>
     {% endfor %}
-    </tr>
-  {% endfor %}
-</table>
-
+  </table>
+</div>
 
 {% endblock content %}

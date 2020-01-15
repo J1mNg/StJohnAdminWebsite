@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import FormView, ListView, CreateView, DeleteView
 from django.core.exceptions import ValidationError
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from .models import Meeting, Cadet, Attendance, Absence
 from .forms import MeetingForm_AddAll, IndexRedirectForm
 from dateutil import rrule
@@ -11,6 +13,7 @@ from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 # Create your views here.
 
+@login_required
 def rollmarkingIndex(request):
     now = datetime.now()
     if request.method == 'POST': #& IndexRedirectForm.base_fields.keys():
@@ -22,6 +25,9 @@ def rollmarkingIndex(request):
                 return redirect('rollmarking:mark_attendance', year=data['year'], month=data['month'], day=data['day'])
             elif 'go_view_attendance' in get_request:
                 return redirect('rollmarking:view_attendance', year=data['year'], term=data['term'])
+            elif 'go_add_meetings' in get_request:
+                return redirect('rollmarking:form_addmeetings')
+
 
     else:
         #initial doesn't work
@@ -32,6 +38,7 @@ def rollmarkingIndex(request):
 #add validation for end_date > start_date
 #prevent users from selecting term if it exists already
 #redirect to appropriate page
+@login_required
 def form_addmeetings(request):
     if request.method == 'POST':
         form = MeetingForm_AddAll(request.POST)
@@ -49,6 +56,7 @@ def form_addmeetings(request):
 
     return render(request, 'RollMarkingApp/meeting_form.html', {'form': form})
 
+@login_required
 def mark_attendance(request, year, month, day):
     cadets = Cadet.objects.filter(is_active=True)
     context = {'cadets':cadets}
@@ -145,7 +153,7 @@ def mark_attendance(request, year, month, day):
 
     return render(request, 'RollMarkingApp/mark_attendance.html', context)
 
-class AttendanceCreateView(SuccessMessageMixin, CreateView):
+class AttendanceCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = Attendance
     template_name = 'RollMarkingApp/cadet_attendance_form.html'
     fields = '__all__'
@@ -153,6 +161,7 @@ class AttendanceCreateView(SuccessMessageMixin, CreateView):
     success_message = "%(cadet)s attendance successfully entered"
 
 # reason codes don't work yet
+@login_required
 def view_attendance(request, year, term):
     attendance = Attendance.objects.all()
     cadets = Cadet.objects.filter(is_active=True)

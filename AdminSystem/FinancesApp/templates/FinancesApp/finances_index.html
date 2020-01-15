@@ -1,35 +1,80 @@
 {% extends "base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/finances_index.css' %}">
+{% endblock stylesheet %}
+
 {% block content %}
-<form method="POST">
-  {% csrf_token %}
-  <div class="container">
-    <h3>Select Year:</h3>
-    <div class="content-section">
-      {{ form.year }}
+<div class="container">
+  <form method="POST">
+
+
+  <div class="row">
+      <div class="col">
+          {% csrf_token %}
+          <div class="container">
+            <div class= "content-section">
+              <h3>View financial summary by:</h3>
+              <ul class="list-group">
+                <li class="list-group-item">Year <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="view_year_finances">Go</button></li>
+                <li class="list-group-item">Term for {{ form.term_finances }} <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="view_term_finances">Go</button></li>
+                <li class="list-group-item">Month for {{ form.month }} <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="view_month_finances">Go</button></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class= "content-section">
+              <h3>Term Fees:</h3>
+              <ul class="list-group">
+                <li class="list-group-item">View Term Fee Payments for {{ form.term_termfees }} <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="view_term_termfees">Go</button></li>
+                <li class="list-group-item">Add Term Fees <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="view_add_termfees">Go</button></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class= "content-section">
+              <h3>Expenses:</h3>
+              <ul class="list-group">
+                <li class="list-group-item">Add expenses <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="view_add_expenses">Go</button></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class= "content-section">
+              <h3>Other Income:</h3>
+              <ul class="list-group">
+                <li class="list-group-item">Add Other Income <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="view_add_otherincome">Go</button></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class= "content-section">
+              <h3>Cashbox:</h3>
+              <ul class="list-group">
+                <li class="list-group-item">Reconciliate Cashbox <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="view_reconciliate_cashbox">Go</button></li>
+              </ul>
+            </div>
+          </div>
+
+      </div>
+      <div class="col-md-auto">
+        <div class="content-section">
+          <h3>Select Year:</h3>
+            {{ form.year|as_crispy_field }}
+          <h3>Cashbox:</h3>
+            <ul class="list-group">
+              <li class="list-group-item py-2">{{ cashbox_amount }} </li>
+            </ul>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="container">
-    <h3>View financial summary by:</h3>
-    <ul>
-      <li>Year <button class="btn btn-outline-info" type="submit" name="view_year_finances">Go</button></li>
-      <li>term for {{ form.term_finances}} <button class="btn btn-outline-info" type="submit" name="view_term_finances">Go</button></li>
-      <li>month for {{ form.month}} <button class="btn btn-outline-info" type="submit" name="view_month_finances">Go</button></li>
-    </ul>
-  </div>
-  <div class="container">
-    <h3>Term Fees</h3>
-    <ul>
-      <li>View term fee payments for {{ form.term_termfees }} <button class="btn btn-outline-info" type="submit" name="view_term_termfees">Go</button></li>
-      <li><a href="{% url 'finances:termfee-create' %}">Add term fees</a></li>
-    </ul>
-  </div>
-  <div class="container">
-    <h3>Expenses:</h3>
-    <ul>
-      <li><a href="{% url 'finances:expense-create' %}">Add expenses</a></li>
-    </ul>
-  </div>
-</form>
+  </form>
+</div>
+
 
 {% endblock content %}

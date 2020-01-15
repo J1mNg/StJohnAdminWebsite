@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  get_sum_html_column(1);
   get_sum_html_column(2);
   get_sum_html_column(3);
   get_sum_html_column(4);

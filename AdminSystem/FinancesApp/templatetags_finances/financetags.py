@@ -1,5 +1,5 @@
 from django import template
-from FinancesApp.models import TermFee, Expense
+from FinancesApp.models import TermFee, Expense, OtherIncome
 from CadetApp.models import Cadet
 
 register = template.Library()
@@ -28,6 +28,13 @@ def return_joiningfee_total(date):
 
     return joiningfee_total
 
+def return_otherincome_total(date):
+    amount_list = OtherIncome.objects.filter(meeting__date=date).values_list('amount',flat=True)
+    otherincome_total = 0
+    for amount in amount_list:
+        otherincome_total += amount
+
+    return otherincome_total
 
 def return_expense_total(date):
     amount_list = Expense.objects.filter(meeting__date=date).values_list('amount',flat=True)
@@ -50,8 +57,12 @@ def filter_joiningfee(date):
     return return_joiningfee_total(date)
 
 @register.filter
+def filter_otherincome(date):
+    return return_otherincome_total(date)
+
+@register.filter
 def filter_income(date):
-    return return_termfee_total(date) + return_uniformbond_total(date) + return_joiningfee_total(date)
+    return return_termfee_total(date) + return_uniformbond_total(date) + return_joiningfee_total(date) + return_otherincome_total(date)
 
 @register.filter
 def filter_expenses(date):
@@ -59,4 +70,4 @@ def filter_expenses(date):
 
 @register.filter
 def filter_profit(date):
-    return return_termfee_total(date) + return_uniformbond_total(date) + return_joiningfee_total(date) - return_expense_total(date)
+    return return_termfee_total(date) + return_uniformbond_total(date) + return_joiningfee_total(date) + return_otherincome_total(date) - return_expense_total(date)

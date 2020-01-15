@@ -17,5 +17,5 @@ def filter_cadet_absence(cadet, term_date):
 
 @register.filter
 def filter_cadet_absence_reason(cadet, term_date):
-    cadet_meeting_obj = Attendance.objects.filter(cadet=cadet, meeting=term_date).values('reason_code')
+    cadet_meeting_obj = Absence.objects.get(cadet=cadet, meeting=term_date).reason_code
     return cadet_meeting_obj

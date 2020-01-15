@@ -1,28 +1,44 @@
 {% extends "base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/rollmark_index.css' %}">
+{% endblock stylesheet %}
 {% block content %}
-<form method="POST">
-  {% csrf_token %}
-  <div class="container">
-    <h3>Select Year:</h3>
-    <div class="content-section">
-      {{ form.year }}
-    </div>
-  </div>
-  <div class="container">
-    <h3>Attendance:</h3>
-    <ul>
-      <li>mark attendance for {{ form.month }} {{ form.day }} <button class="btn btn-outline-info" type="submit" name="go_mark_attendance">Go</button></li>
-      <li>view attendance by term for {{ form.term}} <button class="btn btn-outline-info" type="submit" name="go_view_attendance">Go</button></li>
-      <li>add attendance for individual student</li>
-    </ul>
-  </div>
-  <div class="container">
-    <h3>Manange meetings</h3>
-    <ul>
-      <li><a href="{% url 'rollmarking:form_addmeetings' %}">Add meetings</a></li>
-    </ul>
-  </div>
-</form>
+<div class="container">
+  <form method="POST">
 
+
+  <div class="row">
+      <div class="col">
+          {% csrf_token %}
+          <div class="container">
+            <div class= "content-section">
+              <h3>Attendance:</h3>
+              <ul class="list-group">
+                <li class="list-group-item">Mark Attendance for {{ form.month }} {{ form.day }} <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="go_mark_attendance">Go</button></li>
+                <li class="list-group-item">View Attendance by Term for {{ form.term}} <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="go_view_attendance">Go</button></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class= "content-section">
+              <h3>Meetings:</h3>
+              <ul class="list-group">
+                <li class="list-group-item">Manage Meetings <button class="btn btn-sm float-right btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" name="go_add_meetings">Go</button></li>
+              </ul>
+            </div>
+          </div>
+
+      </div>
+      <div class="col-md-auto">
+        <div class="content-section">
+          <h3>Select Year:</h3>
+            {{ form.year|as_crispy_field }}
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
 {% endblock content %}
