@@ -27,7 +27,10 @@ def meeting_today():
 @login_required
 def financesIndex(request):
     #latest returns object with a date that is the most recent
-    cashbox_amount = CashBox.objects.latest('meeting__date').current_amount()
+    try:
+        cashbox_amount = CashBox.objects.latest('meeting__date').current_amount()
+    except:
+        cashbox_amount = 0
     now = datetime.datetime.now()
 
     if request.method == 'POST':

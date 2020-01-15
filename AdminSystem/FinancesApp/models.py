@@ -59,17 +59,17 @@ class CashBox(models.Model):
     deficit = models.IntegerField(default=0)
 
     def current_amount(self):
-        cashbox_current = self.amount
-        latest_cashbox_date = self.meeting.date
+            cashbox_current = self.amount
+            latest_cashbox_date = self.meeting.date
 
-        termfee_amount = TermFee.objects.filter(meeting__date__gte=latest_cashbox_date).aggregate(Sum('amount'))['amount__sum']
-        uniform_amount = Cadet.objects.filter(bond_paid__gte=latest_cashbox_date).count() * 50
-        joining_amount = Cadet.objects.filter(joining_fee_paid__gte=latest_cashbox_date).count() * 50
-        expense_amount = Expense.objects.filter(meeting__date__gte=latest_cashbox_date).aggregate(Sum('amount'))['amount__sum']
-        if termfee_amount is None:
-            termfee_amount = 0
-        if expense_amount is None:
-            expense_amount = 0
+            termfee_amount = TermFee.objects.filter(meeting__date__gte=latest_cashbox_date).aggregate(Sum('amount'))['amount__sum']
+            uniform_amount = Cadet.objects.filter(bond_paid__gte=latest_cashbox_date).count() * 50
+            joining_amount = Cadet.objects.filter(joining_fee_paid__gte=latest_cashbox_date).count() * 50
+            expense_amount = Expense.objects.filter(meeting__date__gte=latest_cashbox_date).aggregate(Sum('amount'))['amount__sum']
+            if termfee_amount is None:
+                termfee_amount = 0
+            if expense_amount is None:
+                expense_amount = 0
 
-        cashbox_amount = cashbox_current + termfee_amount + uniform_amount + joining_amount - expense_amount
-        return cashbox_amount
+            cashbox_amount = cashbox_current + termfee_amount + uniform_amount + joining_amount - expense_amount
+            return cashbox_amount
