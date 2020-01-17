@@ -50,6 +50,8 @@ def financesIndex(request):
                 return redirect('finances:termfee-create')
             elif 'view_add_expenses' in get_request:
                 return redirect('finances:expense-create')
+            elif 'view_add_otherincome' in get_request:
+                return redirect('finances:otherincome-create')
             elif 'view_reconciliate_cashbox' in get_request:
                 return redirect('finances:cashbox-create')
 
