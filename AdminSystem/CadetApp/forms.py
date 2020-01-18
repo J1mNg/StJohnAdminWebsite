@@ -9,6 +9,7 @@ class EditCadetInformationForm(ModelForm):
         model = Cadet
 
         fields = [
+            'dems_id',
             'firstname',
             'lastname',
             'birthday',
@@ -30,6 +31,10 @@ class EditCadetInformationForm(ModelForm):
         ]
 
         widgets = {
+            'dems_id': NumberInput(attrs={
+                'class': 'form_input',
+                'placeholder': 'e.g 123'
+            }),
             'firstname': TextInput(
                 attrs={
                     'class': 'form_input',

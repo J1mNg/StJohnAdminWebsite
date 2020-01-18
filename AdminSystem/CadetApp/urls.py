@@ -24,4 +24,6 @@ urlpatterns = [
     path('cadets_index', views.index, name='cadets_index'),
     path('edit_cadet/<int:cadet_id>/', views.edit_cadet),
     path('add_cadet/', views.add_cadet, name='add_cadet.html'),
+    path('update_cadetDB_view/', views.update_cadetDB_view, name='update_cadetDB_view'),
+    path('update_cadetDB/', views.update_cadetDB, name='update_cadetDB'),
 ]

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheet %}{% endblock stylesheet %}
+
+{% block javascript %}{% endblock javascript %}
+
+{% block content %}
+
+<div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                    {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="container">
+    <h1> Update Cadet Database </h1>
+    <br>
+</div>
+
+{% comment %} Updating Cadet DB {% endcomment %}
+<div class="container">
+    <div class="row">
+        <h3> Update Cadet Database </h3>
+        <i style="margin-left: 0.5em" class="fas fa-info-circle fa-2x fa-fw" data-toggle="tooltip" title="Please ensure that files 'cadet_list.json & cadet_hours.json exist inside folder 'cadet_list'"></i>
+    </div>
+    <br>
+    <form method="POST" action="/cadets/update_cadetDB/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <button type='submit' class="btn btn-success">Update Database</button>
+    </form>
+    <br>
+</div>
+
+{% endblock content %}
