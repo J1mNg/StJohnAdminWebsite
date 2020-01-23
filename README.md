@@ -1,5 +1,5 @@
 St John Ambulance Admin System:
-Link: http://ec2-52-207-243-125.compute-1.amazonaws.com/
+Link: https://stjohnbccd.com/
 
 Developed By:
     Jim Ng: https://github.com/J1mNg
