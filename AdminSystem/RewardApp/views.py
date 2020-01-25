@@ -227,6 +227,7 @@ def confirm_reward_view(request, cadet_id, reward_tier):
     
     return redirect('/rewards/adminReward/')
 
+@user_passes_test(check_admin)
 def rewards_cadets_list_view(request):
     cadets = Cadet.objects.all().filter(is_active=True)
 

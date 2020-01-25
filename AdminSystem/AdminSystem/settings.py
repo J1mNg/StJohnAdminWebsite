@@ -19,8 +19,6 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^_uvaralvgpr03ohyj5p0zwima!%g$h+#@fjvv4h-bguc5*6+n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
