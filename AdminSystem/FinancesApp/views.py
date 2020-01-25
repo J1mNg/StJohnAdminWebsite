@@ -106,7 +106,7 @@ class TermFeeListView(LoginRequiredMixin, ListView):
         paid = TermFee.objects.filter(meeting__term=self.kwargs['term'], meeting__date__year=self.kwargs['year'])
         # paid.values('cadet') --> returns a list of dictionaries --> [{'cadet':pk_1}, {'cadet':pk_2} ...]
         # exclude all cadet objects with a primary key in the query set of paid.values('cadet')
-        not_paid = Cadet.objects.exclude(user_id__in=paid.values('cadet'))
+        not_paid = Cadet.objects.exclude(user_id__in=paid.values('cadet')).exclude(is_active=False)
         # partition the query set
         queryset = {'paid':paid, 'not_paid':not_paid}
         return queryset

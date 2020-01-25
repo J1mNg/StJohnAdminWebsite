@@ -99,7 +99,7 @@ class rewards_index_view(ListView):
         Returns:
             [queryset] -- [dictionary of defined querysets]
         """
-        cadets = Cadet.objects.all()
+        cadets = Cadet.objects.filter(is_active=True)
         reward_log = User_Reward_Log.objects.all()
         rewards = Reward.objects.all()
         reward_tier = Reward_Band.objects.all()
@@ -183,7 +183,7 @@ class reward_tier_view(ListView):
 
 @user_passes_test(check_admin)
 def admin_reward_view(request):
-    cadets = Cadet.objects.all()
+    cadets = Cadet.objects.all().filter(is_active=True)
     reward_log = User_Reward_Log.objects.all()
     rewards = Reward.objects.all()
     reward_tier = Reward_Band.objects.all()
@@ -228,7 +228,7 @@ def confirm_reward_view(request, cadet_id, reward_tier):
     return redirect('/rewards/adminReward/')
 
 def rewards_cadets_list_view(request):
-    cadets = Cadet.objects.all()
+    cadets = Cadet.objects.all().filter(is_active=True)
 
     queryset = {'cadets': cadets}
 

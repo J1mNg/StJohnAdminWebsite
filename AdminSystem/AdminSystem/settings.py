@@ -23,7 +23,17 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 SECRET_KEY = '^_uvaralvgpr03ohyj5p0zwima!%g$h+#@fjvv4h-bguc5*6+n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+# CSRF COOKIE secure
+CSRF_COOKIE_SECURE = True
+
+# Secures routing and acces only via HTTPS
+SECURE_HSTS_SECONDS = 60
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 ALLOWED_HOSTS = ['*']
 
